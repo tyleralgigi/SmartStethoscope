@@ -1,13 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import help from './src/views/help';
+import home from './src/views/home';
+//views
+import signIn from './src/views/signIn';
+
+
+const Stack = createNativeStackNavigator();
+var isLoggedIn = false;
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to temp working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        {isLoggedIn ? (
+          //After Auth
+          <Stack.Group>
+            <Stack.Screen name="Home"
+              component={home}/>
+          </Stack.Group>
+        ):(
+          //Auth Screens
+          <Stack.Group screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="signIn"
+              component={signIn}/>
+          </Stack.Group>
+        )}
+        {/*Common popup screens*/}
+        <Stack.Group screenOptions={{presentation:'modal'}}>
+          <Stack.Screen name="Help"
+              component={help}/>
+        </Stack.Group>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
