@@ -2,11 +2,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import createAccount from './src/views/createAccount';
 import help from './src/views/help';
 import home from './src/views/home';
 //views
 import signIn from './src/views/signIn';
-
 
 const Stack = createNativeStackNavigator();
 var isLoggedIn = false;
@@ -23,9 +23,16 @@ export default function App() {
           </Stack.Group>
         ):(
           //Auth Screens
-          <Stack.Group screenOptions={{ headerShown: false }}>
+          <Stack.Group >
             <Stack.Screen name="signIn"
-              component={signIn}/>
+              component={signIn}
+              options={{headerShown: false}}/>
+            <Stack.Screen name="createAccount" 
+              component={createAccount} 
+              options={{
+                title: 'Create An Acccount',
+                headerBackTitle: 'Back'
+                }}/>
           </Stack.Group>
         )}
         {/*Common popup screens*/}
