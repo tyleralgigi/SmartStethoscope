@@ -3,10 +3,12 @@ import React from 'react';
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';
+import { firebase } from '../other/firebase';
+
 export default function signIn({ navigation }) {
 
   const [email, onChangeEmail] = React.useState("");
-  const [password, onChangePassword] = React.useState(null);
+  const [password, onChangePassword] = React.useState("");
 
   return (
     <View style={styles.container}>
@@ -37,7 +39,7 @@ export default function signIn({ navigation }) {
             <TextInput 
               style={styles.textInput}
               placeholder="password"
-              secureTextEntry='true'
+              secureTextEntry={true}
               onChangeText={onChangePassword}
               value={password}/>
             <View style={{alignItems:'flex-end'}}>
@@ -45,7 +47,25 @@ export default function signIn({ navigation }) {
             </View>
           </View>
           <View style={{padding: 15}}>
-            <DefaultButton text='Sign In' />
+            <DefaultButton text='Sign In' onPress={() => {
+              console.log("login")
+              if(email != '' && password != ''){
+                const auth = firebase.getAuth();
+                signInWithEmailAndPassword(auth, email, password)
+                  .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    console.log(user)
+                  })
+                  .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorMessage)
+                  });
+
+              }
+              
+            }} />
           </View>
           <View style={{padding: 15}}>
             <InvertedButton text='Create An Account' onPress={() => {
