@@ -16,6 +16,7 @@ export default class DefaultButton extends Component {
               alignItems: "center",
               borderRadius: 5,
             }}
+            onPress={this.props.onPress}
           >
             <Text style={{color: 'white'}}>{this.props.text}</Text>
           </TouchableOpacity>
