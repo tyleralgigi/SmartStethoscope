@@ -37,7 +37,7 @@ export default function signIn({ navigation }) {
             <TextInput 
               style={styles.textInput}
               placeholder="password"
-              secureTextEntry='true'
+              secureTextEntry={true}
               onChangeText={onChangePassword}
               value={password}/>
             <View style={{alignItems:'flex-end'}}>
