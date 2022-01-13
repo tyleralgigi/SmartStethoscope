@@ -1,13 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState} from 'react';
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from "../other/js/firebase"
+
 export default function signIn({ navigation }) {
 
-  const [email, onChangeEmail] = React.useState("");
-  const [password, onChangePassword] = React.useState(null);
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  })
 
+  function handleValueChange(text, eventName){
+    setValues(prev => {
+      return {
+        ...prev,
+        [eventName] : text
+      }
+    })
+  }
+
+  function Login(){
+
+    const {email, password} = values
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        console.log("success")
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -29,8 +56,7 @@ export default function signIn({ navigation }) {
               style={styles.textInput}
               placeholder="youremail@email.com"
               keyboardType="email-address"
-              onChangeText={onChangeEmail}
-              value={email}/>
+              onChangeText={text => handleValueChange(text, 'email')}/>
           </View>
           <View style={{width: '100%' , paddingTop: 10, paddingBottom: 10}}>
             <Text>Password</Text>
@@ -38,14 +64,15 @@ export default function signIn({ navigation }) {
               style={styles.textInput}
               placeholder="password"
               secureTextEntry={true}
-              onChangeText={onChangePassword}
-              value={password}/>
+              onChangeText={text => handleValueChange(text, 'password')}/>
             <View style={{alignItems:'flex-end'}}>
               <Text>Forgot Password?</Text>
             </View>
           </View>
           <View style={{padding: 15}}>
-            <DefaultButton text='Sign In' />
+            <DefaultButton text='Sign In' 
+            onPress={() => Login()}
+            />
           </View>
           <View style={{padding: 15}}>
             <InvertedButton text='Create An Account' onPress={() => {
