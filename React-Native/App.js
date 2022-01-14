@@ -1,17 +1,35 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { auth } from './src/other/js/firebase';
 import createAccount from './src/views/createAccount';
+import forgotPassword from './src/views/forgotPassword';
 import help from './src/views/help';
 import home from './src/views/home';
-//views
 import signIn from './src/views/signIn';
-
 const Stack = createNativeStackNavigator();
-var isLoggedIn = false;
+
 
 export default function App() {
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // Listen for authentication state to change.
+  onAuthStateChanged(auth, user => {
+    if (user != null) {
+      console.log('We are authenticated now!');
+      setIsLoggedIn(true);
+    }else{
+      console.log('Not authenticated')
+      setIsLoggedIn(false);
+    }
+
+    // Do other things
+  });
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -33,6 +51,13 @@ export default function App() {
                 title: 'Create An Acccount',
                 headerBackTitle: 'Back'
                 }}/>
+            <Stack.Screen name="forgotPassword"
+              component={forgotPassword} 
+              options={{
+                title: 'Forgot Password',
+                headerBackTitle: 'Back'
+                }}
+            />
           </Stack.Group>
         )}
         {/*Common popup screens*/}
