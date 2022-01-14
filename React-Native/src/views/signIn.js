@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -66,7 +66,12 @@ export default function signIn({ navigation }) {
               secureTextEntry={true}
               onChangeText={text => handleValueChange(text, 'password')}/>
             <View style={{alignItems:'flex-end'}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('forgotPassword')}
+            >
               <Text>Forgot Password?</Text>
+            </TouchableOpacity>
+              
             </View>
           </View>
           <View style={{padding: 15}}>
