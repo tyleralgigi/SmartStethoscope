@@ -1,12 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, {useState, useEffect}from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { auth } from './src/other/js/firebase';
 import createAccount from './src/views/createAccount';
 import help from './src/views/help';
 import home from './src/views/home';
-import {onAuthStateChanged, signOut} from 'firebase/auth';
-import { auth } from './src/other/js/firebase';
 import signIn from './src/views/signIn';
 const Stack = createNativeStackNavigator();
 
@@ -20,8 +20,6 @@ export default function App() {
     if (user != null) {
       console.log('We are authenticated now!');
       setIsLoggedIn(true);
-      //signOut(auth);
-      //setIsLoggedIn(false);
     }else{
       console.log('Not authenticated')
       setIsLoggedIn(false);
