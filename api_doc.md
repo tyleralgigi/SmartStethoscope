@@ -1,3 +1,30 @@
+*Backend Documentation*
+
+**Database Structure**
+----
+<_Each user is stored By UID_>
+  ```json
+    {"UID":{
+        "name":"String",
+        "acc_type":"String",
+        "email":"String",
+        //If acc_type is Patient
+        "recording":["String"],
+        //If acc_type is HCP
+        "Patients":["UID"]
+      }
+    }
+  ```
+* **UID**
+  <_This is the user id automatically gernerated by Firebase when a user creates an account_>
+  
+* **Acc Types**
+  `Patient` | `HCP` _Heath Care Provider_
+
+* **Recordings**
+  <_This is an array of S3 bucket urls to each of the users audio recordings `firstname_lastname_bodyPart_#.mp3`_>
+
+
 **get_acc_info**
 ----
   <_retrieves the givens users metadata (firstname, lastname, email...). Returns an OBJECT_>
