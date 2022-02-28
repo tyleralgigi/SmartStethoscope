@@ -1,6 +1,7 @@
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { auth } from './src/other/js/firebase';
@@ -8,6 +9,8 @@ import createAccount from './src/views/createAccount';
 import forgotPassword from './src/views/forgotPassword';
 import help from './src/views/help';
 import home from './src/views/home';
+import recordingScreen from './src/views/recrodingScreen';
+import settings from './src/views/settings';
 import signIn from './src/views/signIn';
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +18,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  
 
   // Listen for authentication state to change.
   onAuthStateChanged(auth, user => {
@@ -38,6 +42,12 @@ export default function App() {
           <Stack.Group>
             <Stack.Screen name="Home"
               component={home}/>
+              
+            <Stack.Group>
+              <Stack.Screen name="recordingScreen" component={recordingScreen}/>
+            </Stack.Group>
+            <Stack.Screen name="Settings"
+              component={settings}/>
           </Stack.Group>
         ):(
           //Auth Screens

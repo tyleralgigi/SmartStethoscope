@@ -1,14 +1,22 @@
+import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, getDatabase, ref } from 'firebase/database';
-import { default as React, default as React, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import DefaultButton from '../components/DefaultButton';
 import { auth } from '../other/js/firebase';
-
-
 
 export default function home({ navigation }) {
 
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+      onPress={() => navigation.navigate('Settings')}>
+        <Feather name="settings" size={20} color="black" />
+      </TouchableOpacity>
+    ),
+  });
   
   const [values, setValues] = useState({
     email: '',
@@ -23,30 +31,31 @@ export default function home({ navigation }) {
   // Listen for authentication state to change.
   onAuthStateChanged(auth, user => {
 
-    const db = getDatabase();
+      const db = getDatabase();
 
-    if (user != null) {
-      const reference = ref(db, 'users/' + user.uid);
-      get(reference, ).then((snapshot) => {
-        if (snapshot.exists()) {
-          setValues({
-            email: snapshot.val().email,
-            first_name: snapshot.val().first_name,
-            last_name: snapshot.val().last_name,
-            acc_type: snapshot.val().acc_type,
-            loading: false
-          });
-        } else {
-          console.log("No data available");
-          signOut(auth);
-        }
-      }).catch((error) => {
-        console.error(error);
-      });
-      
-    }
+      if (user != null) {
+        const reference = ref(db, 'users/' + user.uid);
+        get(reference, ).then((snapshot) => {
+          if (snapshot.exists()) {
+            setValues({
+              email: snapshot.val().email,
+              first_name: snapshot.val().first_name,
+              last_name: snapshot.val().last_name,
+              acc_type: snapshot.val().acc_type,
+              loading: false
+            });
+          } else {
+            console.log("No data available");
+            signOut(auth);
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+        
+      }
+  
   });
-
+    
   if (!values.loading){
     return (
       <View style={styles.container}>
@@ -59,7 +68,14 @@ export default function home({ navigation }) {
             <Text style={{
               fontWeight:'bold'
             }}>Welcome {values.first_name} </Text>
-  
+            <View style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height:'100%'
+            }}>
+              <DefaultButton text="New Recording"  onPress={() => navigation.navigate('recordingScreen')}/>
+            </View>
+            
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -76,13 +92,8 @@ export default function home({ navigation }) {
       </View>
     );
 
-export default function home({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  }
+  
 }
 
 const styles = StyleSheet.create({

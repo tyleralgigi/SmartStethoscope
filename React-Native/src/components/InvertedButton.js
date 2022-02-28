@@ -3,7 +3,7 @@ import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 
 var width = Dimensions.get('window').width; 
 
-export default class DefaultButton extends Component {
+export default class InvertedButton extends Component {
     render = () => {
       return (
         <View>
