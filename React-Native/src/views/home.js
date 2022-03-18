@@ -2,10 +2,11 @@ import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, getDatabase, ref } from 'firebase/database';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DefaultButton from '../components/DefaultButton';
 import { auth } from '../other/js/firebase';
+import firebase from 'firebase/compat';
 
 export default function home({ navigation }) {
 
@@ -24,15 +25,14 @@ export default function home({ navigation }) {
     first_name: '',
     last_name: '',
     acc_type: '',
-    loading: true
+    loading: true,
+    recording: []
   })
   
-
+  const db = getDatabase();
   // Listen for authentication state to change.
-  onAuthStateChanged(auth, user => {
-
-      const db = getDatabase();
-
+  useEffect((auth) => {
+      const user = firebase.auth().currentUser;
       if (user != null) {
         const reference = ref(db, 'users/' + user.uid);
         get(reference, ).then((snapshot) => {
@@ -42,7 +42,8 @@ export default function home({ navigation }) {
               first_name: snapshot.val().first_name,
               last_name: snapshot.val().last_name,
               acc_type: snapshot.val().acc_type,
-              loading: false
+              loading: false,
+              recording: snapshot.val().recording,
             });
           } else {
             console.log("No data available");

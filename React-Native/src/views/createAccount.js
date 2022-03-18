@@ -17,6 +17,7 @@ export default function createAccount({ navigation }) {
     first_name: '',
     last_name: '',
     acc_type: '',
+    recording: []
   })
 
   function handleValueChange(text, eventName){
@@ -50,7 +51,7 @@ export default function createAccount({ navigation }) {
 
   function handleCreateAccount(){
     
-    const {email, password,first_name,last_name,acc_type} = values
+    const {email, password,first_name,last_name,acc_type, recording} = values
 
     const db = getDatabase();
     //const reference = ref(db, 'users/' + userId);
@@ -68,6 +69,7 @@ export default function createAccount({ navigation }) {
           last_name: last_name,
           acc_type: acc_type,
           userId: userId.user.uid,
+          recording: recording
         });
       })
       .catch((error) => {
