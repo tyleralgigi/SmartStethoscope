@@ -5,8 +5,26 @@ import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../other/js/firebase"
+import { onAuthStateChanged } from 'firebase/auth';
+import { useStore } from '../other/js/appStore';
 
 export default function signIn({ navigation }) {
+
+  const toogleLogIn = useStore(state => state.toogleLogIn)
+  // Listen for authentication state to change.
+  onAuthStateChanged(auth, user => {
+    
+    if (user != null) {
+      console.log('We are authenticated now!');
+      toogleLogIn();
+      navigation.navigate('Home');
+    }else{
+      console.log('Not authenticated')
+      toogleLogIn();
+    }
+
+    // Do other things
+  });
 
   const [values, setValues] = useState({
     email: '',

@@ -17,66 +17,46 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  
-
-  // Listen for authentication state to change.
-  onAuthStateChanged(auth, user => {
-    if (user != null) {
-      console.log('We are authenticated now!');
-      setIsLoggedIn(true);
-    }else{
-      console.log('Not authenticated')
-      setIsLoggedIn(false);
-    }
-
-    // Do other things
-  });
-
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        {isLoggedIn ? (
-          //After Auth
-          <Stack.Group>
-            <Stack.Screen name="Home"
-              component={home}/>
-              
+        <Stack.Navigator initialRouteName="signIn">
             <Stack.Group>
-              <Stack.Screen name="recordingScreen" component={recordingScreen}/>
+              <Stack.Screen name="Home"
+                component={home}
+                options={{headerBackVisible: false }} />
+              <Stack.Group>
+                <Stack.Screen name="recordingScreen" component={recordingScreen}/>
+              </Stack.Group>
+              <Stack.Screen name="Settings"
+                component={settings}/>
             </Stack.Group>
-            <Stack.Screen name="Settings"
-              component={settings}/>
+            <Stack.Group >
+              <Stack.Screen name="signIn"
+                component={signIn}
+                options={{headerShown: false}}/>
+              <Stack.Screen name="createAccount" 
+                component={createAccount} 
+                options={{
+                  title: 'Create An Acccount',
+                  headerBackTitle: 'Back'
+                  }}/>
+              <Stack.Screen name="forgotPassword"
+                component={forgotPassword} 
+                options={{
+                  title: 'Forgot Password',
+                  headerBackTitle: 'Back'
+                  }}
+              />
+            </Stack.Group>
+
+          {/*Common popup screens*/}
+          <Stack.Group screenOptions={{presentation:'modal'}}>
+            <Stack.Screen name="Help"
+                component={help}/>
           </Stack.Group>
-        ):(
-          //Auth Screens
-          <Stack.Group >
-            <Stack.Screen name="signIn"
-              component={signIn}
-              options={{headerShown: false}}/>
-            <Stack.Screen name="createAccount" 
-              component={createAccount} 
-              options={{
-                title: 'Create An Acccount',
-                headerBackTitle: 'Back'
-                }}/>
-            <Stack.Screen name="forgotPassword"
-              component={forgotPassword} 
-              options={{
-                title: 'Forgot Password',
-                headerBackTitle: 'Back'
-                }}
-            />
-          </Stack.Group>
-        )}
-        {/*Common popup screens*/}
-        <Stack.Group screenOptions={{presentation:'modal'}}>
-          <Stack.Screen name="Help"
-              component={help}/>
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 }
 
