@@ -2,14 +2,14 @@ import firebase from 'firebase/compat/app';
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDHCOINfrDhyxzfE7oqg_QwP3u4ZduPEtA",
-    authDomain: "smartstethoscope-99610.firebaseapp.com",
-    databaseURL: "https://smartstethoscope-99610-default-rtdb.firebaseio.com",
+    apiKey: process.env.apiKey,
+    authDomain: process.env.authDomain,
+    databaseURL: process.env.databaseURL,
     projectId: "smartstethoscope-99610",
-    storageBucket: "smartstethoscope-99610.appspot.com",
-    messagingSenderId: "189306051063",
-    appId: "1:189306051063:web:29635aa39c32f65ae136f2",
-    measurementId: "G-JE9ZZEEP8M"
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messagingSenderId,
+    appId: process.env.appId,
+    measurementId: process.env.measurementId
 };
 
 if (!firebase.apps.length){
