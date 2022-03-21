@@ -5,17 +5,16 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
 import { get, getDatabase, ref, push } from 'firebase/database';
 import firebase from 'firebase/compat';
-
-require('dotenv').config();
+import {REACT_APP_bucket, REACT_APP_accessKey, REACT_APP_secretKey} from '@env';
 
 
 const config = {
   keyPrefix: 's3/', // Ex. myuploads/
-  bucket: process.env.bucket, // Ex. aboutreact
+  bucket: REACT_APP_bucket, // Ex. aboutreact
   region: 'us-east-1', // Ex. ap-south-1
-  accessKey: process.env.accessKey,
+  accessKey: REACT_APP_accessKey,
   // Ex. AKIH73GS7S7C53M46OQ
-  secretKey:  process.env.secretKey,
+  secretKey:  REACT_APP_secretKey,
   // Ex. Pt/2hdyro977ejd/h2u8n939nh89nfdnf8hd8f8fd
   successActionStatus: 201,
 }
@@ -25,7 +24,7 @@ export default function recordingScreen({ navigation }) {
   const [recording, setRecording] = React.useState();
   const db = getDatabase();
   const user = firebase.auth().currentUser;
-
+  
   async function startRecording() {
     try {
       console.log('Requesting permissions..');
@@ -51,16 +50,21 @@ export default function recordingScreen({ navigation }) {
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
     const uri = recording.getURI(); 
+    const date = Date().toLocaleString()
+
     const file = {
       // `uri` can also be a file system path (i.e. file://)
       uri: uri,
-      name: "audio1.mp3",
+      name: user.uid + " " + date+".mp3",
       type: "audio/mp3"
     }
     console.log('Recording stopped and stored at', uri);
+    //Upload file to AWS
+    
     RNS3.put(file, config).then(response => {
       if (response.status !== 201)
         throw new Error("Failed to upload image to S3");
+        //Add file URL from AWS to Firebase
         const test = ref(db, 'users/' + user.uid + '/recordings');
         console.log(response.body["postResponse"]['location']);
         push(test, response.body["postResponse"]['location']);
