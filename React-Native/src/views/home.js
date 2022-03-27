@@ -3,12 +3,52 @@ import { StatusBar } from 'expo-status-bar';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, getDatabase, ref } from 'firebase/database';
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
 import DefaultButton from '../components/DefaultButton';
 import { auth } from '../other/js/firebase';
 import firebase from 'firebase/compat';
 
 export default function home({ navigation }) {
+
+  const patientList = [
+    {
+        id: '1',
+        zip: '123456',
+        fname: "Norman",
+        lname: "Osborn",
+        dob: "10/11/1945",
+        age: 76,
+        sex: "M"
+    },
+    {
+        id: '2',            
+        zip: '123456',
+        fname: "Otto",
+        lname: "Octavius",
+        dob: "05/18/1940",
+        age: 81,
+        sex: "M"
+    },
+    {
+        id: '3',
+        zip: '123456',
+        fname: "Mac",
+        lname: "Gargan",
+        dob: "06/03/1983",
+        age: 38,
+        sex: "M"
+    },
+  ];
+  const renderItem = ({ item }) => {
+      return (
+          <TouchableOpacity onPress={() => console.log({ id: item.id })}>
+              <View style={styles.item}>
+                  <Text>{item.fname + " " + item.lname + " (" + item.age + ") " + item.sex}</Text>
+                  <Text>{item.dob}</Text>
+              </View>
+          </TouchableOpacity>
+      );
+  };
 
   navigation.setOptions({
     headerRight: () => (
@@ -79,8 +119,14 @@ export default function home({ navigation }) {
             
           </View>
         </View>
+        <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width: '100%'}}/>
         <View style={styles.bottomContainer}>
-  
+                <Text style={{ paddingTop: 15 }}>Patients List</Text>
+                <FlatList style={{ width: '100%', paddingTop: 15 }}
+                    data={patientList}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
         </View>
         <StatusBar style="auto" />
       </View>
@@ -112,6 +158,23 @@ const styles = StyleSheet.create({
   bottomContainer:{
     flex: 2,
     width: '100%',
-    backgroundColor: "#856"
+
+  },
+  textInput: {
+    width: '100%',
+    height: 50,
+    padding: 10,
+    borderRadius: 5,
+    borderColor: "grey",
+    borderWidth: 2,
+  },
+  item: {
+      width: '100%',
+      backgroundColor: '#fff',
+      height: 60,
+      borderBottomColor: '#ddd',
+      borderBottomWidth: 1,
+      paddingTop: 10,
+      paddingLeft: 5
   }
 });

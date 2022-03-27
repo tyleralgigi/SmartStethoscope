@@ -1,7 +1,7 @@
 import { Audio } from 'expo-av';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, ActivityIndicator, Alert } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
 import { get, getDatabase, ref, push } from 'firebase/database';
 import firebase from 'firebase/compat';
@@ -24,7 +24,8 @@ export default function recordingScreen({ navigation }) {
   const [recording, setRecording] = React.useState();
   const db = getDatabase();
   const user = firebase.auth().currentUser;
-  
+  const [uploading, changeUploadState] = React.useState(true);
+
   async function startRecording() {
     try {
       console.log('Requesting permissions..');
@@ -48,6 +49,7 @@ export default function recordingScreen({ navigation }) {
     
     console.log('Stopping recording..');
     setRecording(undefined);
+    changeUploadState({uploading: false});
     await recording.stopAndUnloadAsync();
     const uri = recording.getURI(); 
     const date = Date().toLocaleString()
@@ -69,30 +71,50 @@ export default function recordingScreen({ navigation }) {
         console.log(response.body["postResponse"]['location']);
         push(test, response.body["postResponse"]['location']);
     });
+    changeUploadState({uploading: true});
+    Alert.alert(
+      "You recording is complete and uploaded!"
+    )
+
+    navigation.goBack()
   }
 
   async function cancelRecording() {
     console.log('cancelling recording..');
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
-
+    Alert.alert(
+      "You recording was cancelled."
+    )
   }
   
   return (
     <View style={styles.container}>
-      <Text>Setting</Text>
-      <Button
-        title={recording ? 'Stop Recording' : 'Start Recording'}
-        onPress={recording ? stopRecording : startRecording}
-      />
-      {recording ? (
-        <Button
-          title={"cancel"}
-          onPress={cancelRecording}/>
+
+      {uploading ?(
+        <View style={styles.container}>
+          <Text>Setting</Text>
+          <Button
+            title={recording ? 'Stop Recording' : 'Start Recording'}
+            onPress={recording ? stopRecording : startRecording}
+          />
+          {recording ? (
+            <Button
+              title={"cancel"}
+              onPress={cancelRecording}/>
+          ):(
+            <View>
+            </View>
+          )}
+        </View>
       ):(
-        <View>
+        <View style={styles.loading}>
+          <ActivityIndicator size='large' />
         </View>
       )}
+
+
+      
       
       <StatusBar style="auto" />
     </View>
@@ -106,4 +128,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
+
+
+
