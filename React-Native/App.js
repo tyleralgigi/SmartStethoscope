@@ -1,10 +1,9 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { onAuthStateChanged } from 'firebase/auth';
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { auth } from './src/other/js/firebase';
+import connectBluetooth from './src/views/connectBluetooth';
 import createAccount from './src/views/createAccount';
 import forgotPassword from './src/views/forgotPassword';
 import help from './src/views/help';
@@ -27,6 +26,7 @@ export default function App() {
                 options={{headerBackVisible: false }} />
               <Stack.Group>
                 <Stack.Screen name="recordingScreen" component={recordingScreen}/>
+                <Stack.Screen name="connectBluetooth" component={connectBluetooth}/>
               </Stack.Group>
               <Stack.Screen name="Settings"
                 component={settings}/>

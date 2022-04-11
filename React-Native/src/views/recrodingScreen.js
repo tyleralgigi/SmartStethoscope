@@ -1,11 +1,11 @@
+import { REACT_APP_accessKey, REACT_APP_bucket, REACT_APP_secretKey } from '@env';
 import { Audio } from 'expo-av';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Button, StyleSheet, Text, View, ActivityIndicator, Alert } from 'react-native';
-import { RNS3 } from 'react-native-aws3';
-import { get, getDatabase, ref, push } from 'firebase/database';
 import firebase from 'firebase/compat';
-import {REACT_APP_bucket, REACT_APP_accessKey, REACT_APP_secretKey} from '@env';
+import { getDatabase, push, ref, set } from 'firebase/database';
+import React from 'react';
+import { ActivityIndicator, Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { RNS3 } from 'react-native-aws3';
 
 
 const config = {
@@ -67,10 +67,21 @@ export default function recordingScreen({ navigation }) {
       if (response.status !== 201)
         throw new Error("Failed to upload image to S3");
         //Add file URL from AWS to Firebase
-        const test = ref(db, 'users/' + user.uid + '/recordings');
+        //const recordings = ref(db, 'recordings/');
+        //const test = ref(db, 'users/' + user.uid + '/recordings');
+
         console.log(response.body["postResponse"]['location']);
-        push(test, response.body["postResponse"]['location']);
+        const userUpdate = ref(db, 'users/' + user.uid + '/recordings');
+        const reference = push(userUpdate)
+        
+        set(ref(db, 'users/' + user.uid + '/recordings/'+reference.key), {
+            url: response.body["postResponse"]['location'],
+            type: "test type",
+            date: date,
+            id: reference.key})
+
     });
+    
     changeUploadState({uploading: true});
     Alert.alert(
       "You recording is complete and uploaded!"

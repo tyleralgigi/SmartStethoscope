@@ -1,54 +1,13 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { onAuthStateChanged } from 'firebase/auth';
-import { get, getDatabase, ref } from 'firebase/database';
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
-import DefaultButton from '../components/DefaultButton';
-import { auth } from '../other/js/firebase';
 import firebase from 'firebase/compat';
+import { get, getDatabase, ref } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import DefaultButton from '../components/DefaultButton';
 
 export default function home({ navigation }) {
 
-  const patientList = [
-    {
-        id: '1',
-        zip: '123456',
-        fname: "Norman",
-        lname: "Osborn",
-        dob: "10/11/1945",
-        age: 76,
-        sex: "M"
-    },
-    {
-        id: '2',            
-        zip: '123456',
-        fname: "Otto",
-        lname: "Octavius",
-        dob: "05/18/1940",
-        age: 81,
-        sex: "M"
-    },
-    {
-        id: '3',
-        zip: '123456',
-        fname: "Mac",
-        lname: "Gargan",
-        dob: "06/03/1983",
-        age: 38,
-        sex: "M"
-    },
-  ];
-  const renderItem = ({ item }) => {
-      return (
-          <TouchableOpacity onPress={() => console.log({ id: item.id })}>
-              <View style={styles.item}>
-                  <Text>{item.fname + " " + item.lname + " (" + item.age + ") " + item.sex}</Text>
-                  <Text>{item.dob}</Text>
-              </View>
-          </TouchableOpacity>
-      );
-  };
 
   navigation.setOptions({
     headerRight: () => (
@@ -66,25 +25,39 @@ export default function home({ navigation }) {
     last_name: '',
     acc_type: '',
     loading: true,
-    recording: []
+    recordings: {}
   })
   
+  useEffect(() => {
+    // write your code here, it's like componentWillMount
+    request();
+  }, [])
+
   const db = getDatabase();
+  
   // Listen for authentication state to change.
-  useEffect((auth) => {
+  const request = (auth) => {
       const user = firebase.auth().currentUser;
       if (user != null) {
         const reference = ref(db, 'users/' + user.uid);
         get(reference, ).then((snapshot) => {
           if (snapshot.exists()) {
+            const array = [];
+            
+            for(var i in snapshot.val().recordings) {
+              array.push(snapshot.val().recordings[i]);
+            }
+            console.log(array)
             setValues({
               email: snapshot.val().email,
               first_name: snapshot.val().first_name,
               last_name: snapshot.val().last_name,
               acc_type: snapshot.val().acc_type,
               loading: false,
-              recording: snapshot.val().recording,
+              recordings: array,
             });
+            
+
           } else {
             console.log("No data available");
             signOut(auth);
@@ -94,9 +67,10 @@ export default function home({ navigation }) {
         });
         
       }
+
+  };
   
-  });
-    
+
   if (!values.loading){
     return (
       <View style={styles.container}>
@@ -112,8 +86,10 @@ export default function home({ navigation }) {
             <View style={{
               alignItems: 'center',
               justifyContent: 'center',
-              height:'100%'
+              height:'87%'
             }}>
+              <DefaultButton text="Connect Stethoscope"  onPress={() => navigation.navigate('connectBluetooth')}/>
+              <View style={{height:20}}></View>
               <DefaultButton text="New Recording"  onPress={() => navigation.navigate('recordingScreen')}/>
             </View>
             
@@ -121,11 +97,22 @@ export default function home({ navigation }) {
         </View>
         <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width: '100%'}}/>
         <View style={styles.bottomContainer}>
-                <Text style={{ paddingTop: 15 }}>Patients List</Text>
+                <Text style={{ paddingTop: 15 }}>Recordings List</Text>
                 <FlatList style={{ width: '100%', paddingTop: 15 }}
-                    data={patientList}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    data={values.recordings}
+                    renderItem={({ item }) => {
+                      const keys = Object.keys(item)
+                          return (
+                              <TouchableOpacity >
+                                  <View style={styles.item}>
+                                      <Text>{item.type}</Text>
+                                      <Text>{item.date}</Text>
+                                  </View>
+                              </TouchableOpacity>
+                          );
+                      }
+                    }
+                    keyExtractor={(item, index) => item.id}
                 />
         </View>
         <StatusBar style="auto" />
@@ -170,7 +157,7 @@ const styles = StyleSheet.create({
   },
   item: {
       width: '100%',
-      backgroundColor: '#fff',
+      backgroundColor: '#A33',
       height: 60,
       borderBottomColor: '#ddd',
       borderBottomWidth: 1,
