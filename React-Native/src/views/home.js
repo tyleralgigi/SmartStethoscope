@@ -47,7 +47,7 @@ export default function home({ navigation }) {
             for(var i in snapshot.val().recordings) {
               array.push(snapshot.val().recordings[i]);
             }
-            console.log(array)
+            //console.log(array)
             setValues({
               email: snapshot.val().email,
               first_name: snapshot.val().first_name,
@@ -69,7 +69,7 @@ export default function home({ navigation }) {
       }
 
   };
-  
+
 
   if (!values.loading){
     return (
@@ -90,7 +90,7 @@ export default function home({ navigation }) {
             }}>
               <DefaultButton text="Connect Stethoscope"  onPress={() => navigation.navigate('connectBluetooth')}/>
               <View style={{height:20}}></View>
-              <DefaultButton text="New Recording"  onPress={() => navigation.navigate('recordingScreen')}/>
+              <DefaultButton text="New Recording"  onPress={() => navigation.navigate('recordingInsructions')}/>
             </View>
             
           </View>

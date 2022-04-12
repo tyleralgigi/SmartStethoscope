@@ -11,9 +11,11 @@ export const useStore = create(set => ({
     acc_type: '',
     loading: true
   },
+  typeOfRecording: 'Respiratory Examination',
   
   setUserValues:(userValues) => set({ userValues }),
   toogleLogIn: () => set(state => ({isLoggedIn: !state.isLoggedIn})),
   increasePopulation: () => set(state => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 })
+  removeAllBears: () => set({ bears: 0 }),
+  setType: (type) => set({typeOfRecording: type})
 }))

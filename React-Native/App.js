@@ -8,6 +8,7 @@ import createAccount from './src/views/createAccount';
 import forgotPassword from './src/views/forgotPassword';
 import help from './src/views/help';
 import home from './src/views/home';
+import recordingInsructions from './src/views/recordingInsructions';
 import recordingScreen from './src/views/recrodingScreen';
 import settings from './src/views/settings';
 import signIn from './src/views/signIn';
@@ -24,9 +25,10 @@ export default function App() {
               <Stack.Screen name="Home"
                 component={home}
                 options={{headerBackVisible: false }} />
-              <Stack.Group>
-                <Stack.Screen name="recordingScreen" component={recordingScreen}/>
-                <Stack.Screen name="connectBluetooth" component={connectBluetooth}/>
+              <Stack.Group >
+                <Stack.Screen name="recordingInsructions" component={recordingInsructions} options={{ title: 'Before You Start' }}/>
+                <Stack.Screen name="recordingScreen" component={recordingScreen} options={{ title: 'Recording' }}/>
+                <Stack.Screen name="connectBluetooth" component={connectBluetooth} options={{ title: 'Connect Bluetooth' }}/>
               </Stack.Group>
               <Stack.Screen name="Settings"
                 component={settings}/>

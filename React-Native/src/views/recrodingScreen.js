@@ -4,9 +4,10 @@ import { StatusBar } from 'expo-status-bar';
 import firebase from 'firebase/compat';
 import { getDatabase, push, ref, set } from 'firebase/database';
 import React from 'react';
-import { ActivityIndicator, Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
-
+import DefaultButton from '../components/DefaultButton';
+import InvertedButton from '../components/InvertedButton';
 
 const config = {
   keyPrefix: 's3/', // Ex. myuploads/
@@ -21,10 +22,13 @@ const config = {
 
 
 export default function recordingScreen({ navigation }) {
-  const [recording, setRecording] = React.useState();
+  const [recording, setRecording] = React.useState(false);
   const db = getDatabase();
   const user = firebase.auth().currentUser;
   const [uploading, changeUploadState] = React.useState(true);
+  const [recordingTitle, changerecording] = React.useState("Start recroding");
+  const [paused, setPause] = React.useState(false);
+  const [hitRecording, changeHitRecording] = React.useState(false);
 
   async function startRecording() {
     try {
@@ -35,11 +39,43 @@ export default function recordingScreen({ navigation }) {
         playsInSilentModeIOS: true,
       }); 
       console.log('Starting recording..');
+      
       const { recording } = await Audio.Recording.createAsync(
-         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
       );
+      
       setRecording(recording);
+      changeHitRecording(true);
+      changerecording("Pause Recording")
       console.log('Recording started');
+     
+    } catch (err) {
+      console.error('Failed to start recording', err);
+    }
+  }
+
+  async function pauseRecording() {
+    console.log("pausing")
+
+    try{
+      await recording.pauseAsync();
+      setPause(true);
+      changerecording("Continue Recording")
+    } catch (err) {
+      console.error('Failed to start recording', err);
+    }
+
+
+  }
+
+  async function contiuneRecording(){
+    console.log("contiune")
+    
+    try{
+      await recording.startAsync()
+      setPause(false);
+      changeHitRecording(true);
+      changerecording("Pause Recording")
     } catch (err) {
       console.error('Failed to start recording', err);
     }
@@ -50,6 +86,7 @@ export default function recordingScreen({ navigation }) {
     console.log('Stopping recording..');
     setRecording(undefined);
     changeUploadState({uploading: false});
+    changerecording("Recording Complete")
     await recording.stopAndUnloadAsync();
     const uri = recording.getURI(); 
     const date = Date().toLocaleString()
@@ -99,10 +136,146 @@ export default function recordingScreen({ navigation }) {
     )
   }
   
+  const chest_images = [{image:require("../other/imgs/A_chest_placement.png"), title:"Next"}, {image:require("../other/imgs/P_chest_placement.png"), title:"Next"},
+  {image:require("../other/imgs/T_chest_placement.png"), title:"Next"}, {image:require("../other/imgs/M_chest_placement.png"), title:"Finish"}]
+  const [count, changeCount] = React.useState(0);
+  
+
+  const countUp = () =>{
+    if(count != 3 ){
+      if(paused){
+        if(hitRecording){
+          changeCount(count+1);
+          changeHitRecording(false);
+        }else{
+          Alert.alert(
+            "Please record your Heart sounds by following the instructions on screen."
+          )
+        }
+        
+      }else{
+
+        Alert.alert(
+          "Please pause your recording to contiune."
+        )
+      }
+      
+    }else{
+      console.log("count is done")
+      if(paused){
+        if(hitRecording){
+          stopRecording()
+        }else{
+          Alert.alert(
+            "Please record your Heart sounds by following the instructions on screen."
+          )
+        }
+      }else{
+        Alert.alert(
+          "Please pause your recording to contiune."
+        )
+      }
+    }
+  }
+
+  const process = () => {
+    if(count == 0){
+      if(!recording){
+        startRecording()
+      }else{
+        pauseRecording()
+      }
+    }else if (count == 1){
+      if(paused){
+        contiuneRecording()
+      }else{
+        pauseRecording()
+      }
+    }else if (count == 2){
+      if(paused){
+        contiuneRecording()
+      }else{
+        pauseRecording()
+      }
+    }else if (count == 3){
+      if(paused){
+        contiuneRecording()
+      }else{
+        pauseRecording()
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
+      <View style={styles.top}>
 
-      {uploading ?(
+          <Image style={{width:"80%"}} source={chest_images[count].image}/>
+          <View style={{width:"85%", paddingTop:10}}>
+            <Text style={{paddingTop:5, fontWeight:"500"}}>Lightly place the Stethoscope on your chest approxomiatly where the RED is.</Text>
+            <Text style={{paddingTop:5, fontWeight:"500"}}>When you are ready tap start recording, you will then take 2 DEEP breaths and stop the recording.</Text>
+            <Text style={{paddingTop:5, fontWeight:"500"}}>Then tap next.</Text>
+          </View>
+         
+      </View>
+
+      <View style={styles.middle}>
+        <InvertedButton text={recordingTitle}
+            onPress={() => process()}/>
+
+      </View>
+
+      <View style={styles.bottom}>
+        <DefaultButton text={chest_images[count].title}  onPress={() => countUp()}/>
+      </View>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  top:{
+    flex: 6,
+    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image:{
+    resizeMode: 'center',
+
+  },
+  middle:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 3,
+    width: "100%"
+  },
+  bottom:{
+    flex: 2,
+    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
+
+
+
+/* {uploading ?(
         <View style={styles.container}>
           <Text>Setting</Text>
           <Button
@@ -123,32 +296,4 @@ export default function recordingScreen({ navigation }) {
           <ActivityIndicator size='large' />
         </View>
       )}
-
-
-      
-      
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loading: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
-
-
-
+*/
