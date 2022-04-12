@@ -33,7 +33,7 @@ export default function recordingInsructions({ navigation }) {
                     }}>Respiratory Examination</Text>
                     <Text>A respiratory examination, or lung examination, is performed as part of a physical examination or in response to respiratory symptoms such as shortness of breath, cough, or chest pain, and is often carried out with a cardiac examination.</Text>
                             
-                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('recordingScreen')}}/>
+                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('respiratoryRecordingScreen')}}/>
                 </View>
             ):(
                 <View>
@@ -41,7 +41,7 @@ export default function recordingInsructions({ navigation }) {
                         fontWeight:'bold'
                     }}>Cardiac Examination</Text>
                     <Text>A cardiac examination, also precordial exam, is performed as part of a physical examination, or when a patient presents with chest pain suggestive of a cardiovascular pathology. </Text>
-                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('recordingScreen')}}/>
+                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('cardiacRecordingScreen')}}/>
                 </View>
 
             ) }

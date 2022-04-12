@@ -3,13 +3,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import cardiacRecordingScreen from './src/views/cardiacRecrodingScreen';
 import connectBluetooth from './src/views/connectBluetooth';
 import createAccount from './src/views/createAccount';
 import forgotPassword from './src/views/forgotPassword';
 import help from './src/views/help';
 import home from './src/views/home';
 import recordingInsructions from './src/views/recordingInsructions';
-import recordingScreen from './src/views/recrodingScreen';
+import respiratoryRecordingScreen from './src/views/respiratoryRecrodingScreen';
 import settings from './src/views/settings';
 import signIn from './src/views/signIn';
 const Stack = createNativeStackNavigator();
@@ -27,7 +28,8 @@ export default function App() {
                 options={{headerBackVisible: false }} />
               <Stack.Group >
                 <Stack.Screen name="recordingInsructions" component={recordingInsructions} options={{ title: 'Before You Start' }}/>
-                <Stack.Screen name="recordingScreen" component={recordingScreen} options={{ title: 'Recording' }}/>
+                <Stack.Screen name="cardiacRecordingScreen" component={cardiacRecordingScreen} options={{ title: 'Cardiac Recording' }}/>
+                <Stack.Screen name="respiratoryRecordingScreen" component={respiratoryRecordingScreen} options={{ title: 'Respiratory Recording' }}/>
                 <Stack.Screen name="connectBluetooth" component={connectBluetooth} options={{ title: 'Connect Bluetooth' }}/>
               </Stack.Group>
               <Stack.Screen name="Settings"

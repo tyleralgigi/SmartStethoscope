@@ -1,56 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 
 export default function connectBluetooth({ navigation }) {
-    return (
-    <View style={styles.container}>
-        
-        <StatusBar style="auto" />
-    </View>
-    );
-}
+    const [isPlaying, setIsPlaying] = React.useState(true)
 
-const styles = StyleSheet.create({
+    return (
+      <View style={styles.container}>
+        <CountdownCircleTimer
+          isPlaying={isPlaying}
+          duration={10}
+          colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+          colorsTime={[10, 6, 3, 0]}
+          onComplete={() => ({ shouldRepeat: false, delay: 2})}
+      >
+        {({ remainingTime, color }) => (
+          <Text style={{ color, fontSize: 40 }}>
+            {remainingTime}
+          </Text>
+        )}
+      </CountdownCircleTimer>
+      <Button title="Toggle Playing" onPress={() => setIsPlaying(prev => !prev)} />
+    </View>
+    )
+  }
+  
+  const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    body: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    mainView25: {
-        flex: 1,
-        width: '80%',
-        alignItems: 'center',
-        paddingTop: '10%',
-    },
-    mainView75: {
-        flex: 4,
-        width: '100%',
-        alignItems: 'center',
-    },
-    textInput: {
-        width: '100%',
-        height: 50,
-        padding: 10,
-        borderRadius: 5,
-        borderColor: "grey",
-        borderWidth: 2,
-    },
-    item: {
-        width: '100%',
-        backgroundColor: '#fff',
-        height: 60,
-        borderBottomColor: '#ddd',
-        borderBottomWidth: 1,
-        paddingTop: 10,
-        paddingLeft: 5
+      height: "80%",
+      width:"80%",
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#ecf0f1',
+      padding: 8,
     }
-});
+  });

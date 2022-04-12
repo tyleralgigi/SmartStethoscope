@@ -21,7 +21,7 @@ const config = {
 }
 
 
-export default function recordingScreen({ navigation }) {
+export default function respiratoryRecordingScreen({ navigation }) {
   const [recording, setRecording] = React.useState(false);
   const db = getDatabase();
   const user = firebase.auth().currentUser;
@@ -113,7 +113,7 @@ export default function recordingScreen({ navigation }) {
         
         set(ref(db, 'users/' + user.uid + '/recordings/'+reference.key), {
             url: response.body["postResponse"]['location'],
-            type: "test type",
+            type: "Respiratory Recording",
             date: date,
             id: reference.key})
 
@@ -220,12 +220,13 @@ export default function recordingScreen({ navigation }) {
       </View>
 
       <View style={styles.middle}>
-        <InvertedButton text={recordingTitle}
-            onPress={() => process()}/>
-
+        
       </View>
 
       <View style={styles.bottom}>
+        <InvertedButton text={recordingTitle}
+            onPress={() => process()}/>
+        <View style={{height:10}}></View>
         <DefaultButton text={chest_images[count].title}  onPress={() => countUp()}/>
       </View>
       <StatusBar style="auto" />
@@ -257,7 +258,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   bottom:{
-    flex: 2,
+    flex: 3,
     width: "100%",
     alignItems: 'center',
     justifyContent: 'center',
