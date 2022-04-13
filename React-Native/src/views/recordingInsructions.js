@@ -1,54 +1,87 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Picker, StyleSheet, Text, View } from 'react-native';
+import { Picker, StyleSheet, Text, View, Image } from 'react-native';
 import InvertedButton from '../components/InvertedButton';
 import { useStore } from '../other/js/appStore';
 
 export default function recordingInsructions({ navigation }) {
     const setType = useStore(state => state.setType)
     const [selectedValue, setSelectedValue] = useState("Respiratory Examination");
+    
     return (
         <View style={styles.container}>
-            <View style={{flex: 1, width:"100%"}}>
-                <Text style={{
-                    fontWeight:'bold'
-                }}>What type of recording are you performing?</Text>
-                <Picker
-                    selectedValue={selectedValue}
-                    style={{ height: 30, width: '100%' }}
-                    onValueChange={(itemValue, itemIndex) => {
-                        setType(itemValue)
-                        setSelectedValue(itemValue)}}
-                >
-                    <Picker.Item label="Respiratory Examination" value="Respiratory Examination" />
-                    <Picker.Item label="Cardiac Examination" value="Cardiac Examination" />
-                </Picker>
-            </View>
-        
-        <View style={{flex: 1, width:"100%"}}>
-            {selectedValue=="Respiratory Examination"?(
-                <View>
-                     <Text style={{
-                        fontWeight:'bold'
-                    }}>Respiratory Examination</Text>
-                    <Text>A respiratory examination, or lung examination, is performed as part of a physical examination or in response to respiratory symptoms such as shortness of breath, cough, or chest pain, and is often carried out with a cardiac examination.</Text>
-                            
-                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('respiratoryRecordingScreen')}}/>
-                </View>
-            ):(
-                <View>
+            <View style={styles.top}>
+
+              
+                <View style={{width:"85%", paddingTop:10}}>
                     <Text style={{
                         fontWeight:'bold'
-                    }}>Cardiac Examination</Text>
-                    <Text>A cardiac examination, also precordial exam, is performed as part of a physical examination, or when a patient presents with chest pain suggestive of a cardiovascular pathology. </Text>
-                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('cardiacRecordingScreen')}}/>
+                    }}>What type of recording are you performing?</Text>
                 </View>
-
-            ) }
-
+                <View style={{ height: 30, width: '85%', borderColor: 'black', borderBottomWidth: 1 }}>
+                <Picker
+                        selectedValue={selectedValue}
+                        style={{ height: 30, width: '100%', borderColor: 'black', borderBottomWidth: 1 }}
+                        onValueChange={(itemValue, itemIndex) => {
+                            setType(itemValue)
+                            setSelectedValue(itemValue)}}
+                    >
+                        <Picker.Item label="Respiratory Examination" value="Respiratory Examination" />
+                        <Picker.Item label="Cardiac Examination" value="Cardiac Examination" />
+                    </Picker>
+                </View>
+                    
             </View>
-        <StatusBar style="auto" />
-    </View>
+
+                
+            <View style={styles.bottom}>
+                
+                <View style={{height:"20%", width: '85%'}}>
+                {selectedValue=="Respiratory Examination"?(
+                    <View>
+                        <Text style={{
+                            fontWeight:'bold'
+                        }}>Respiratory Examination</Text>
+                        <Text>A respiratory examination, or lung examination, is performed as part of a physical examination or in response to respiratory symptoms such as shortness of breath, cough, or chest pain, and is often carried out with a cardiac examination.</Text>
+                   
+                    </View>
+                ):(
+                    <View>
+                        <Text style={{
+                            fontWeight:'bold'
+                        }}>Cardiac Examination</Text>
+                        <Text>A cardiac examination, also precordial exam, is performed as part of a physical examination, or when a patient presents with chest pain suggestive of a cardiovascular pathology. </Text>
+                    
+                    </View>
+
+                ) }
+                </View>
+                <View style={{height:"60%", width: '85%'}}>
+                {selectedValue=="Respiratory Examination"?(
+                    <View>
+                       
+                    </View>
+                ):(
+                    <View>
+                    </View>
+
+                ) }
+                </View>
+                <View style={{height:"20%", width: '85%', alignItems: 'center',justifyContent: 'center',}}>
+                {selectedValue=="Respiratory Examination"?(
+                    <View>
+                        <InvertedButton text='Continue' onPress={() => { navigation.navigate('respiratoryRecordingScreen')}}/>
+                    </View>
+                ):(
+                    <View>
+                        <InvertedButton text='Continue' onPress={() => { navigation.navigate('cardiacRecordingScreen')}}/>
+                    </View>
+
+                ) }
+                </View>
+            </View>
+            <StatusBar style="auto" />
+        </View>
     );
 }
 
@@ -62,8 +95,7 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
         width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: 'center'
     },
     mainView25: {
         flex: 1,
@@ -92,5 +124,66 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingTop: 10,
         paddingLeft: 5
-    }
+    },
+    top:{
+        flex: 1,
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      image:{
+        resizeMode: 'center',
+    
+      },
+      middle:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 3,
+        width: "100%"
+      },
+      bottom:{
+        flex: 3,
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
 });
+
+/*<View style={{flex: 1, width:"100%"}}>
+                <Text style={{
+                    fontWeight:'bold'
+                }}>What type of recording are you performing?</Text>
+                <Picker
+                    selectedValue={selectedValue}
+                    style={{ height: 30, width: '100%' }}
+                    onValueChange={(itemValue, itemIndex) => {
+                        setType(itemValue)
+                        setSelectedValue(itemValue)}}
+                >
+                    <Picker.Item label="Respiratory Examination" value="Respiratory Examination" />
+                    <Picker.Item label="Cardiac Examination" value="Cardiac Examination" />
+                </Picker>
+            </View>
+        
+            <View style={{flex: 1, width:"100%"}}>
+            {selectedValue=="Respiratory Examination"?(
+                <View>
+                     <Text style={{
+                        fontWeight:'bold'
+                    }}>Respiratory Examination</Text>
+                    <Text>A respiratory examination, or lung examination, is performed as part of a physical examination or in response to respiratory symptoms such as shortness of breath, cough, or chest pain, and is often carried out with a cardiac examination.</Text>
+                            
+                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('respiratoryRecordingScreen')}}/>
+                </View>
+            ):(
+                <View>
+                    <Text style={{
+                        fontWeight:'bold'
+                    }}>Cardiac Examination</Text>
+                    <Text>A cardiac examination, also precordial exam, is performed as part of a physical examination, or when a patient presents with chest pain suggestive of a cardiovascular pathology. </Text>
+                    <InvertedButton text='Continue' onPress={() => { navigation.navigate('cardiacRecordingScreen')}}/>
+                </View>
+
+            ) }
+
+            </View>*/
