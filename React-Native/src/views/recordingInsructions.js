@@ -59,10 +59,22 @@ export default function recordingInsructions({ navigation }) {
                 <View style={{height:"60%", width: '85%'}}>
                 {selectedValue=="Respiratory Examination"?(
                     <View>
-                       
+                       <Text style={{
+                            fontWeight:'bold'
+                        }}>Stethoscope Instructions</Text>
+                        <Text style={{paddingTop:15}}>1. Hold the stethoscope between your pointing finger and middle fingers and apply light pressure. </Text>
+                        <Text style={{paddingTop:15}}>2. Sit upright and breath normally during the recording. </Text>
+                        <Text style={{paddingTop:15}}>3. For all of the instructed position, please record for atleast 2 deep breaths. </Text>
+                    
                     </View>
                 ):(
                     <View>
+                        <Text style={{
+                            fontWeight:'bold'
+                        }}>Stethoscope Instructions</Text>
+                        <Text style={{paddingTop:15}}>1. Hold the stethoscope between your pointing finger and middle fingers and apply light pressure. </Text>
+                        <Text style={{paddingTop:15}}>2. Sit upright and breath normally during the recording. </Text>
+                        <Text style={{paddingTop:15}}>3. For each of the 4 instructed position, please record for atleast 2 seconds. </Text>
                     </View>
 
                 ) }
@@ -186,4 +198,6 @@ const styles = StyleSheet.create({
 
             ) }
 
-            </View>*/
+            </View>
+            
+            */

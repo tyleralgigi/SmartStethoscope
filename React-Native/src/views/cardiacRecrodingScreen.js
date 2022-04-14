@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import firebase from 'firebase/compat';
 import { getDatabase, push, ref, set } from 'firebase/database';
 import React from 'react';
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
 import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';
@@ -30,6 +30,7 @@ export default function cardiacRecordingScreen({ navigation }) {
   const [paused, setPause] = React.useState(true);
   const [hitRecording, changeHitRecording] = React.useState(false);
   const [isPlaying, setIsPlaying] = React.useState(false)
+  const [isLoading, toggleLoading] = React.useState(false);
 
   navigation.setOptions({
     headerLeft: () => (
@@ -43,6 +44,16 @@ export default function cardiacRecordingScreen({ navigation }) {
     ),
   });
 
+  const loadingFunction = () => {
+    toggleLoading(isLoading => !isLoading)
+    console.log("timeout")
+    setTimeout(() => {
+      toggleLoading(isLoading => !isLoading)
+      console.log("timeout done")
+    }, 1000);
+    
+    
+  }
 
   async function startRecording() {
     setIsPlaying(true);
@@ -164,6 +175,7 @@ export default function cardiacRecordingScreen({ navigation }) {
     if(count != 3 ){
       if(paused){
         if(hitRecording){
+          loadingFunction();
           changeCount(count+1);
           changeHitRecording(false);
         }else{
@@ -183,7 +195,7 @@ export default function cardiacRecordingScreen({ navigation }) {
       console.log("count is done")
       if(paused){
         if(hitRecording){
-          stopRecording()
+          stopRecording();
         }else{
           Alert.alert(
             "Please record your Heart sounds by following the instructions on screen."
@@ -228,28 +240,54 @@ export default function cardiacRecordingScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.top}>
+         {isLoading?(
+                <View>
+                  <View style={styles.container}>
+                    <ActivityIndicator
+                      size="large"
+                      color="red"
+                      style={{
+                        position: 'absolute',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                      }} />
+                    <StatusBar style="auto" />
+                  </View>
+                </View>
+            ):(
+                <View>
+                  <View style={styles.container}>
+                    <View style={styles.top}>
 
-          <Image style={{width:"80%"}} source={chest_images[count].image}/>
-          <View style={{width:"85%", paddingTop:10}}>
-            <Text style={{paddingTop:5, fontWeight:"500"}}>Lightly place the Stethoscope on your chest approxomiatly where the RED is.</Text>
-            <Text style={{paddingTop:5, fontWeight:"500"}}>When you are ready tap start recording, you will then take 2 SECONDS and stop the recording.</Text>
-            <Text style={{paddingTop:5, fontWeight:"500"}}>Then tap next.</Text>
-          </View>
-         
-      </View>
+                          <Image style={{width:"80%"}} source={chest_images[count].image}/>
+                          <View style={{width:"85%", paddingTop:10}}>
+                            <Text style={{paddingTop:5, fontWeight:"500"}}>Lightly place the Stethoscope on your chest approxomiatly where the RED is.</Text>
+                            <Text style={{paddingTop:5, fontWeight:"500"}}>When you are ready tap start recording, you will then take 2 DEEP breaths and stop the recording.</Text>
+                            <Text style={{paddingTop:5, fontWeight:"500"}}>Then tap next.</Text>
+                          </View>
+                        
+                    </View>
 
-      <View style={styles.middle}>
+                    <View style={styles.middle}>
+                        
+                    </View>
 
-      </View>
+                    <View style={styles.bottom}>
+                        <InvertedButton text={recordingTitle}
+                            onPress={() => process()}/>
+                        <View style={{height:10}}></View>
+                        <DefaultButton text={chest_images[count].title}  onPress={() => countUp()}/>
+                    </View>
+                    <StatusBar style="auto" />
+                  </View>
 
-      <View style={styles.bottom}>
-        <InvertedButton text={recordingTitle}
-            onPress={() => process()}/>
-        <View style={{height:10}}></View>
-        <DefaultButton text={chest_images[count].title}  onPress={() => countUp()}/>
-      </View>
-      <StatusBar style="auto" />
+                </View>
+
+            ) }
     </View>
   );
 }
