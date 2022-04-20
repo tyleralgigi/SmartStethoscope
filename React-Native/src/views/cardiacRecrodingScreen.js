@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import firebase from 'firebase/compat';
 import { getDatabase, push, ref, set } from 'firebase/database';
 import React from 'react';
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
 import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';
@@ -263,7 +263,7 @@ export default function cardiacRecordingScreen({ navigation }) {
                   <View style={styles.container}>
                     <View style={styles.top}>
 
-                          <Image style={{width:"80%"}} source={chest_images[count].image}/>
+                          <Image style={{width:"100%"}} source={chest_images[count].image}/>
                           <View style={{width:"85%", paddingTop:10}}>
                             <Text style={{paddingTop:5, fontWeight:"500"}}>Lightly place the Stethoscope on your chest approxomiatly where the RED is.</Text>
                             <Text style={{paddingTop:5, fontWeight:"500"}}>When you are ready tap start recording, you will then take 2 DEEP breaths and stop the recording.</Text>

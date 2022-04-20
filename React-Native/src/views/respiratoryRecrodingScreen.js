@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import firebase from 'firebase/compat';
 import { getDatabase, push, ref, set } from 'firebase/database';
 import React from 'react';
-import { Alert, Image, StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
 import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';

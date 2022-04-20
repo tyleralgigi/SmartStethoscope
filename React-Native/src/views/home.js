@@ -97,7 +97,8 @@ export default function home({ navigation }) {
         </View>
         <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width: '100%'}}/>
         <View style={styles.bottomContainer}>
-                <Text style={{ paddingTop: 15 }}>Recordings List</Text>
+                <Text style={{ padding: 15,fontWeight:'bold' }}>Recordings List</Text>
+                <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width: '100%'}}/>
                 <FlatList style={{ width: '100%', paddingTop: 15 }}
                     data={values.recordings}
                     renderItem={({ item }) => {
@@ -105,7 +106,7 @@ export default function home({ navigation }) {
                           return (
                               <TouchableOpacity >
                                   <View style={styles.item}>
-                                      <Text>{item.type}</Text>
+                                      <Text style={{fontWeight:"500"}}>{item.type}</Text>
                                       <Text>{item.date}</Text>
                                   </View>
                               </TouchableOpacity>
@@ -157,8 +158,7 @@ const styles = StyleSheet.create({
   },
   item: {
       width: '100%',
-      backgroundColor: '#A33',
-      height: 60,
+      height: 65,
       borderBottomColor: '#ddd',
       borderBottomWidth: 1,
       paddingTop: 10,
