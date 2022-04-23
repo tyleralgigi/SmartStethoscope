@@ -104,7 +104,11 @@ export default function home({ navigation }) {
                     renderItem={({ item }) => {
                       const keys = Object.keys(item)
                           return (
-                              <TouchableOpacity >
+                              <TouchableOpacity onPress={() => navigation.navigate('playback',{
+                                title:item.type, 
+                                url: item.url, 
+                                date: item.date
+                              })}>
                                   <View style={styles.item}>
                                       <Text style={{fontWeight:"500"}}>{item.type}</Text>
                                       <Text>{item.date}</Text>

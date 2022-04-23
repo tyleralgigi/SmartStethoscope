@@ -9,12 +9,12 @@ import createAccount from './src/views/createAccount';
 import forgotPassword from './src/views/forgotPassword';
 import help from './src/views/help';
 import home from './src/views/home';
+import playback from './src/views/playback';
 import recordingInsructions from './src/views/recordingInsructions';
 import respiratoryRecordingScreen from './src/views/respiratoryRecrodingScreen';
 import settings from './src/views/settings';
 import signIn from './src/views/signIn';
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
   
@@ -31,6 +31,7 @@ export default function App() {
                 <Stack.Screen name="cardiacRecordingScreen" component={cardiacRecordingScreen} options={{ title: 'Cardiac Recording' }}/>
                 <Stack.Screen name="respiratoryRecordingScreen" component={respiratoryRecordingScreen} options={{ title: 'Respiratory Recording' }}/>
                 <Stack.Screen name="connectBluetooth" component={connectBluetooth} options={{ title: 'Connect Bluetooth' }}/>
+                <Stack.Screen name="Playback" component={playback}/>
               </Stack.Group>
               <Stack.Screen name="Settings"
                 component={settings}/>

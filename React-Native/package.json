@@ -7,7 +7,7 @@
     "eject": "expo eject",
     "bundle:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=true --platform='ios'",
     "build:ios": "react-native run-ios --device \"Tyler’s iPhone\"",
-    "run:ios": "yarn bundle:ios && yarn build:ios" 
+    "run:ios": "yarn bundle:ios && yarn build:ios"
   },
   "dependencies": {
     "@config-plugins/react-native-ble-plx": "^1.0.2",
@@ -35,6 +35,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
+    "rn-fetch-blob": "^0.12.0",
     "zustand": "^3.7.1"
   },
   "devDependencies": {
