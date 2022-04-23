@@ -1,12 +1,16 @@
 {
   "scripts": {
-    "start": "react-native start",
+    "start": "expo start --dev-client",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "bundle:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=true --platform='ios'",
+    "build:ios": "react-native run-ios --device \"Tyler’s iPhone\"",
+    "run:ios": "yarn bundle:ios && yarn build:ios" 
   },
   "dependencies": {
+    "@config-plugins/react-native-ble-plx": "^1.0.2",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "babel-plugin-inline-dotenv": "^1.6.0",
@@ -22,6 +26,7 @@
     "react-native": "0.64.3",
     "react-native-audio-player-recorder": "^2.0.0",
     "react-native-aws3": "^0.0.9",
+    "react-native-ble-plx": "^2.0.3",
     "react-native-countdown-circle-timer": "^3.0.9",
     "react-native-dotenv": "^3.3.1",
     "react-native-gesture-handler": "~2.1.0",

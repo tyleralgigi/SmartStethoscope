@@ -1,7 +1,6 @@
-import firebase from 'firebase/compat/app';
+import { REACT_APP_APIKEY, REACT_APP_appId, REACT_APP_authDomain, REACT_APP_databaseURL, REACT_APP_measurementId, REACT_APP_messagingSenderId, REACT_APP_storageBucket } from '@env';
 import { getAuth } from "firebase/auth";
-import {REACT_APP_APIKEY, REACT_APP_authDomain, REACT_APP_databaseURL,
-    REACT_APP_storageBucket,REACT_APP_messagingSenderId,REACT_APP_measurementId,REACT_APP_appId} from '@env';
+import firebase from 'firebase/compat/app';
 
 const firebaseConfig = {
     apiKey: REACT_APP_APIKEY,
@@ -12,6 +11,7 @@ const firebaseConfig = {
     messagingSenderId: REACT_APP_messagingSenderId,
     appId: REACT_APP_appId,
     measurementId:REACT_APP_measurementId
+
 };
 
 if (!firebase.apps.length){
@@ -24,4 +24,4 @@ if (!firebase.apps.length){
 
 const auth = getAuth();
 
-export {auth};
+export { auth };

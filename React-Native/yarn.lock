@@ -1040,6 +1040,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@config-plugins/react-native-ble-plx@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@config-plugins/react-native-ble-plx/-/react-native-ble-plx-1.0.2.tgz#3aff91743819f10a13fda09f43ef27093fcf3c57"
+  integrity sha512-RaIpkkmIWKCFffJfiwYHO3nOpI0i5WQGbAY3UIvdlYQcPqBVScwWu53vcGRqYX8eci+xAxL1uJmKzA0NUCH1Ag==
+  dependencies:
+    "@expo/config-plugins" "^4.1.0"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -1068,7 +1075,7 @@
     xcode "^3.0.1"
     xml2js "0.4.23"
 
-"@expo/config-plugins@4.1.1":
+"@expo/config-plugins@4.1.1", "@expo/config-plugins@^4.1.0":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.1.1.tgz#ffb20b3d2be4e2509e8bf846721641dc072718c7"
   integrity sha512-lo3tVxRhwM9jfxPHJcURsH5WvU26kX12h5EB3C7kjVhgdQPLkvT8Jk8Cx0KSL8MXKcry2xQvZ2uuwWLkMeplJw==
@@ -5324,6 +5331,11 @@ react-native-aws3@^0.0.9:
   dependencies:
     buffer "^4.5.1"
     crypto-js "^3.1.6"
+
+react-native-ble-plx@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-ble-plx/-/react-native-ble-plx-2.0.3.tgz#b0a746f33389dbf7fd7b158513330d487d5d0fbb"
+  integrity sha512-62LRDBPf/03K7sge+qq2ZuF8PWCGB782G+SBrpgNm5fA5Hs3FCY1ExTJZ1G0tB5ZhBPYEXcKRxPLuFegcDFrqA==
 
 react-native-codegen@^0.0.6:
   version "0.0.6"

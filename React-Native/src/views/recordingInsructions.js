@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Picker, StyleSheet, Text, View, Image } from 'react-native';
+import { Picker, StyleSheet, Text, View } from 'react-native';
 import InvertedButton from '../components/InvertedButton';
 import { useStore } from '../other/js/appStore';
 
@@ -21,7 +21,7 @@ export default function recordingInsructions({ navigation }) {
                 <View style={{ height: 30, width: '85%', borderColor: 'black', borderBottomWidth: 1 }}>
                 <Picker
                         selectedValue={selectedValue}
-                        style={{ height: 30, width: '100%', borderColor: 'black', borderBottomWidth: 1 }}
+                        style={{ height: 50, width: '100%', borderColor: 'black', borderBottomWidth: 1 }}
                         onValueChange={(itemValue, itemIndex) => {
                             setType(itemValue)
                             setSelectedValue(itemValue)}}
@@ -30,7 +30,7 @@ export default function recordingInsructions({ navigation }) {
                         <Picker.Item label="Cardiac Examination" value="Cardiac Examination" />
                     </Picker>
                 </View>
-                    
+                
             </View>
 
                 

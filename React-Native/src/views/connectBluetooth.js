@@ -1,23 +1,70 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, View } from 'react-native';
+import { BleManager } from 'react-native-ble-plx';
+const BLTManager = new BleManager();
 
 export default function connectBluetooth({ navigation }) {
-    
+  const [isConnected, setIsConnected] = useState(false);
+
+  //What device is connected?
+  const [connectedDevice, setConnectedDevice] = useState();
+
+  const [message, setMessage] = useState('Connect');
+  const [boxvalue, setBoxValue] = useState(false);
+
+  // Scans availbale BLT Devices and then call connectDevice
+  async function scanDevices() {
+      console.log('scanning');
+      // display the Activityindicator
+
+      /*#define SERVICE_UUID        "d5e595ce-73ff-4de7-96bc-bd493ec47ffb"
+      #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"*/
+      const uuid = "8222578E-0348-A7F6-9948-E98A6A550D05"
+      const service_UUID =  "d5e595ce-73ff-4de7-96bc-bd493ec47ffb"
+      const chara_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+
+      BLTManager.startDeviceScan(null, null, (error, scannedDevice) => {
+        
+        if (error) {
+          console.warn(error);
+        }
+        console.log(scannedDevice.id)
+        if (scannedDevice.id == service_UUID || scannedDevice.id == chara_UUID || scannedDevice.id == uuid) {
+          BLTManager.stopDeviceScan();
+          console.log(scannedDevice)
+          setMessage(message => "Disconnect")
+          connectDevice(scannedDevice);
+
+        }
+      });
+
+      // stop scanning devices after 5 seconds
+      setTimeout(() => {
+        BLTManager.stopDeviceScan();
+      }, 5000);
+
+  }
+
     return (
       <View style={styles.container}>
-
+          <Button
+              title={message}
+              onPress={() => {
+                scanDevices();
+              }}
+              disabled={false}
+            />
       </View>
     )
   }
   
   const styles = StyleSheet.create({
     container: {
-      height: "80%",
-      width:"80%",
+      height: "100%",
+      width:"100%",
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#ecf0f1',
-      padding: 8,
+      backgroundColor: '#32a852',
     }
   });
 
