@@ -1,25 +1,52 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
+import base64 from 'react-native-base64';
 import { BleManager } from 'react-native-ble-plx';
+var Buffer = require('buffer/').Buffer
+//let wav = require('node-wav');
+
 const BLTManager = new BleManager();
 
 export default function connectBluetooth({ navigation }) {
   const [isConnected, setIsConnected] = useState(false);
-
   //What device is connected?
   const [connectedDevice, setConnectedDevice] = useState();
 
   const [message, setMessage] = useState('Connect');
   const [boxvalue, setBoxValue] = useState(false);
 
+  const [audioData, addAudioData] = useState([]);
+
   // Scans availbale BLT Devices and then call connectDevice
+  async function readDeviceData(device, service, characteristic) {
+    interval = setInterval(() => {
+      device.readCharacteristicForService(service, characteristic)
+      .then((data) => {
+          //console.log(data.value)
+          decoded = base64.decode(data.value);
+          //addAudioData(oldArray => [...oldArray,decoded] );
+          console.log(decoded)
+        })
+        .catch((error) => {
+          // Failure code
+          console.log(error);
+      });
+      
+
+    }, 1000);
+    //console.log(wav.encode(audioData));
+
+  }
+
+
   async function scanDevices() {
       console.log('scanning');
       // display the Activityindicator
 
       /*#define SERVICE_UUID        "d5e595ce-73ff-4de7-96bc-bd493ec47ffb"
       #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"*/
-      const uuid = "8222578E-0348-A7F6-9948-E98A6A550D05"
+
+      const uuid = "687CC3FB-053F-01D7-54A6-CB66EF52CFB8"
       const service_UUID =  "d5e595ce-73ff-4de7-96bc-bd493ec47ffb"
       const chara_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
@@ -29,12 +56,36 @@ export default function connectBluetooth({ navigation }) {
           console.warn(error);
         }
         console.log(scannedDevice.id)
-        if (scannedDevice.id == service_UUID || scannedDevice.id == chara_UUID || scannedDevice.id == uuid) {
+        if (scannedDevice.id == uuid) {
           BLTManager.stopDeviceScan();
-          console.log(scannedDevice)
+          //console.log(scannedDevice)
           setMessage(message => "Disconnect")
-          connectDevice(scannedDevice);
+          setConnectedDevice(scannedDevice);
+          console.log("device found bitch")
+          setTimeout(() => {
+            BLTManager.connectToDevice(uuid)
+              .then((device) => {
+                
+                setTimeout(() => {
+                  device.discoverAllServicesAndCharacteristics()
+                  .then(() => {
+                    readDeviceData(device, service_UUID, chara_UUID);
+                  })
+                  .catch((error) => {
+                    // Failure code
+                    console.log(error);
+                  });
+                  
+                }, 1000);
+                  
+              
+              })
+              .catch((error) => {
+                // Failure code
+                console.log(error);
+              });
 
+          }, 500);
         }
       });
 
@@ -44,6 +95,8 @@ export default function connectBluetooth({ navigation }) {
       }, 5000);
 
   }
+
+
 
     return (
       <View style={styles.container}>
@@ -69,6 +122,26 @@ export default function connectBluetooth({ navigation }) {
   });
 
   /*
+BLTManager.readCharacteristicForDevice(uuid, service_UUID, chara_UUID)
+              .then((readData) => {
+                // Success code
+                console.log("Read: " + readData);
+            
+                //const buffer = Buffer.Buffer.from(readData); //https://github.com/feross/buffer#convert-arraybuffer-to-buffer
+                //const sensorData = buffer.readUInt8(1, true);
+                //console.log("Read: " + sensorData);
+              })
+              .catch((error) => {
+                // Failure code
+                console.log(error);
+              });
+
+
+
+
+
+
+
   import React from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';

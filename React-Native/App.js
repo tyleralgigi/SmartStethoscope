@@ -31,7 +31,7 @@ export default function App() {
                 <Stack.Screen name="cardiacRecordingScreen" component={cardiacRecordingScreen} options={{ title: 'Cardiac Recording' }}/>
                 <Stack.Screen name="respiratoryRecordingScreen" component={respiratoryRecordingScreen} options={{ title: 'Respiratory Recording' }}/>
                 <Stack.Screen name="connectBluetooth" component={connectBluetooth} options={{ title: 'Connect Bluetooth' }}/>
-                <Stack.Screen name="Playback" component={playback}/>
+                <Stack.Screen name="playback" component={playback}/>
               </Stack.Group>
               <Stack.Screen name="Settings"
                 component={settings}/>

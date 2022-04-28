@@ -12,7 +12,9 @@ export const useStore = create(set => ({
     loading: true
   },
   typeOfRecording: 'Respiratory Examination',
-  
+  BLT: null,
+
+  setBLTManager:(BLT) => set(BLT),
   setUserValues:(userValues) => set({ userValues }),
   toogleLogIn: () => set(state => ({isLoggedIn: !state.isLoggedIn})),
   increasePopulation: () => set(state => ({ bears: state.bears + 1 })),
