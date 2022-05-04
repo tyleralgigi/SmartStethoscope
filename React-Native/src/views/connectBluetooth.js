@@ -1,23 +1,60 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, View, ActivityIndicator, Alert} from 'react-native';
+import DefaultButton from '../components/DefaultButton';
 
 export default function connectBluetooth({ navigation }) {
     
+  const [isloading, setLoading] = useState(false);
+
+  function connect(){
+    console.log("Connecting")
+    setLoading(true);
+    setTimeout(() => {
+      Alert.alert('Your device is now connected to the Stethoscope.',
+      '', // <- this part is optional, you can pass an empty string
+      [
+        {text: 'OK', onPress: () => navigation.goBack()},
+      ],
+      {cancelable: false},);
+    }, 1000)
+    navigation.n
+  }
+
     return (
       <View style={styles.container}>
-
+        {isloading ? (
+          <View style={styles.container}>
+                            <ActivityIndicator
+                      size="large"
+                      color="red"
+                      style={{
+                        position: 'absolute',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                      }} />
+          </View>
+        ): (
+          <View style={styles.container}>
+            <DefaultButton text="Pair To Stethoscope"  onPress={() => connect()}/>
+          </View>
+        )
+        }
+        
       </View>
     )
   }
   
   const styles = StyleSheet.create({
     container: {
-      height: "80%",
-      width:"80%",
+      height: "100%",
+      width:"100%",
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#ecf0f1',
-      padding: 8,
     }
   });
 

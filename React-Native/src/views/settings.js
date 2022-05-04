@@ -4,12 +4,17 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import DefaultButton from '../components/InvertedButton';
 import { auth } from '../other/js/firebase';
+import { StackActions } from '@react-navigation/native';
+
 export default function settings({ navigation }) {
 
   return (
     <View style={styles.container}>
       <Text>Setting</Text>
-      <DefaultButton text="Sign Out" onPress={()=> signOut(auth)}/>
+      <DefaultButton text="Sign Out" onPress={()=> {
+        signOut(auth);
+        navigation.dispatch(StackActions.popToTop());
+        }}/>
       <StatusBar style="auto" />
     </View>
   );

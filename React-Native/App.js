@@ -15,6 +15,10 @@ import settings from './src/views/settings';
 import signIn from './src/views/signIn';
 const Stack = createNativeStackNavigator();
 import temp from './src/views/temp';
+import playback from './src/views/playback';
+import homeHCP from './src/views/homeHCP';
+import searchPatient from './src/views/searchPatient';
+import viewPatient from './src/views/viewPatient';
 
 export default function App() {
   
@@ -31,10 +35,16 @@ export default function App() {
                 <Stack.Screen name="cardiacRecordingScreen" component={cardiacRecordingScreen} options={{ title: 'Cardiac Recording' }}/>
                 <Stack.Screen name="respiratoryRecordingScreen" component={respiratoryRecordingScreen} options={{ title: 'Respiratory Recording' }}/>
                 <Stack.Screen name="connectBluetooth" component={connectBluetooth} options={{ title: 'Connect Bluetooth' }}/>
-                <Stack.Screen name="temp" component={temp} />
+                <Stack.Screen name="Playback" component={playback} />
               </Stack.Group>
               <Stack.Screen name="Settings"
                 component={settings}/>
+            </Stack.Group>
+            <Stack.Group>
+              <Stack.Screen name="HomeAdmin" component={homeHCP} options={{title:'Home',headerBackVisible: false}}/>
+              <Stack.Screen name="searchPatient" component={searchPatient} options={{title:'Search Patient'}}/>
+              <Stack.Screen name="viewPatient" component={viewPatient} options={{title:'Patient View'}}/>
+              <Stack.Screen name="playback" component={playback} />
             </Stack.Group>
             <Stack.Group >
               <Stack.Screen name="signIn"

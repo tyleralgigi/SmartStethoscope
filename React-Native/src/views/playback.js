@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native';
 import {Audio} from 'expo-av';
 import InvertedButton from '../components/InvertedButton';
-export default function temp({ route, navigation }) {
+
+export default function playback({ route, navigation }) {
     const { url, title } = route.params;
     const [isPlaying, setIsPlaying] = useState(true);
     const [playbackObject, setPlaybackObject] = useState(null);

@@ -76,7 +76,11 @@ export default function createAccount({ navigation }) {
         console.log(error.message)
       })
 
-
+      if(acc_type=="Patient"){
+        navigation.navigate('Home');
+      }else{
+        navigation.navigate('HomeAdmin');
+      }
 
   }
 

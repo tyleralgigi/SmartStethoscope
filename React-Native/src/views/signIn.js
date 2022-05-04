@@ -7,17 +7,33 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../other/js/firebase"
 import { onAuthStateChanged } from 'firebase/auth';
 import { useStore } from '../other/js/appStore';
+import { getDatabase, ref, child, get, set, remove } from 'firebase/database';
 
 export default function signIn({ navigation }) {
 
   const toogleLogIn = useStore(state => state.toogleLogIn)
+  const dbRef = ref(getDatabase());
+  const [patient, setPatient] = useState('');
   // Listen for authentication state to change.
   onAuthStateChanged(auth, user => {
     
     if (user != null) {
       console.log('We are authenticated now!');
-      toogleLogIn();
-      navigation.navigate('Home');
+    
+      get(child(dbRef, `users/${user.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            const ss = snapshot.exportVal();
+            toogleLogIn();
+            if(ss.acc_type=="Patient"){
+              navigation.navigate('Home');
+            }else{
+              navigation.navigate('HomeAdmin');
+            }
+        } else {
+            console.log("No data available for id: " + user.uid);
+        }
+      });
+
     }else{
       console.log('Not authenticated')
       toogleLogIn();

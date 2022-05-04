@@ -5,6 +5,7 @@ import { get, getDatabase, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DefaultButton from '../components/DefaultButton';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function home({ navigation }) {
 
@@ -28,10 +29,10 @@ export default function home({ navigation }) {
     recordings: {}
   })
   
-  useEffect(() => {
+  useFocusEffect(() => {
     // write your code here, it's like componentWillMount
     request();
-  }, [])
+  })
 
   const db = getDatabase();
   
@@ -104,8 +105,9 @@ export default function home({ navigation }) {
                     renderItem={({ item }) => {
                       const keys = Object.keys(item)
                           return (
-                              <TouchableOpacity onPress={() => navigation.navigate('temp', {
-                                url: item.url
+                              <TouchableOpacity onPress={() => navigation.navigate('playback', {
+                                url: item.url,
+                                title: item.type
                               })}>
                                   <View style={styles.item}>
                                       <Text style={{fontWeight:"500"}}>{item.type}</Text>

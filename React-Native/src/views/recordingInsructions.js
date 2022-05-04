@@ -6,7 +6,7 @@ import { useStore } from '../other/js/appStore';
 
 export default function recordingInsructions({ navigation }) {
     const setType = useStore(state => state.setType)
-    const [selectedValue, setSelectedValue] = useState("Respiratory Examination");
+    const [selectedValue, setSelectedValue] = useState("Cardiac Examination");
     
     return (
         <View style={styles.container}>
@@ -26,8 +26,8 @@ export default function recordingInsructions({ navigation }) {
                             setType(itemValue)
                             setSelectedValue(itemValue)}}
                     >
-                        <Picker.Item label="Respiratory Examination" value="Respiratory Examination" />
                         <Picker.Item label="Cardiac Examination" value="Cardiac Examination" />
+                        <Picker.Item label="Respiratory Examination" value="Respiratory Examination" />
                     </Picker>
                 </View>
                     

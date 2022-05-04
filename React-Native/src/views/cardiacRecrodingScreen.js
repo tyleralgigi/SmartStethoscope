@@ -8,6 +8,7 @@ import { ActivityIndicator, Alert, Image, StyleSheet, Text, TouchableOpacity, Vi
 import { RNS3 } from 'react-native-aws3';
 import DefaultButton from '../components/DefaultButton';
 import InvertedButton from '../components/InvertedButton';
+import { StackActions } from '@react-navigation/native';
 
 const config = {
   keyPrefix: 's3/', // Ex. myuploads/
@@ -154,7 +155,9 @@ export default function cardiacRecordingScreen({ navigation }) {
       "You recording is complete and uploaded!"
     )
 
-    navigation.goBack()
+    const popAction = StackActions.pop(2);
+
+    navigation.dispatch(popAction);
   }
 
   async function cancelRecording() {
