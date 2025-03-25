@@ -18,5 +18,3 @@ Sponsors: Hari Kalve, Jason Hallstrom (I-SENSE)
 
 ## Screenshots
 <img width="653" alt="Screen Shot 2021-12-09 at 4 25 34 PM" src="https://user-images.githubusercontent.com/44593496/145478171-63fdcdfe-a18e-48a5-9b72-251ff2b79782.png">
-
-## Features
