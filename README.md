@@ -1,6 +1,7 @@
-# ISense Smart Stethoscope Senior Design Project
+# ISense Smart Stethoscope
 
-This is the application developed as part of the solution to the problem our senior design group was given to solve issues in remote healthcare. This application will be able to connect and record sounds from our smart stethoscope. These recordings are then able to be sent to the patients corresponding health care provider.
+This application will be able to connect and record sounds from a smart stethoscope. <br>
+These recordings are able to be sent to the patient's health care provider.
 
 ## Awards
 - People's Choice Awards: Community Favorite Electrical Engineering and Computer Science Design Project 
